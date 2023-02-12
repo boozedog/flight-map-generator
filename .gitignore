@@ -1,3 +1,4 @@
 node_modules
 data/logbook.csv
 data/garminlog.csv
+out.csv

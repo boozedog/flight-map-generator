@@ -30,20 +30,22 @@ const exportToKepler = async (logData) => {
   // This does the work to reformat log data into the kepler.gl csv export.
   let kpd = [];
   for await (const el of logData) {
-    kpd.push({
-      from_lng: el.from.X,
-      from_lat: el.from.Y,
-      from_apt: el.from.NAME,
-      from_apt_id: el.from.IDENT,
-      to_lng: el.to.X,
-      to_lat: el.to.Y,
-      to_apt: el.to.NAME,
-      to_apt_id: el.to.IDENT,
-      log_date: el.log.date,
-      log_timestamp: `${el.log.date} 00:00`,
-      log_aircraft: el.log.aircraftId,
-      log_route: el.log.route
-    })
+    if (el.from !== undefined && el.to !== undefined) {
+      kpd.push({
+        from_lng: el.from.X,
+        from_lat: el.from.Y,
+        from_apt: el.from.NAME,
+        from_apt_id: el.from.IDENT,
+        to_lng: el.to.X,
+        to_lat: el.to.Y,
+        to_apt: el.to.NAME,
+        to_apt_id: el.to.IDENT,
+        log_date: el.log.date,
+        log_timestamp: `${el.log.date} 00:00`,
+        log_aircraft: el.log.aircraftId,
+        log_route: el.log.route
+      })
+    }
   }
 
   const ws = fs.createWriteStream("out.csv");
